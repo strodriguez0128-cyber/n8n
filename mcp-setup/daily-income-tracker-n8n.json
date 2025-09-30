@@ -1,0 +1,199 @@
+{
+  "name": "SKEAI Daily $500+ Income Tracker & Optimizer",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{"field": "hours", "hoursInterval": 2}]
+        }
+      },
+      "id": "income-check-trigger",
+      "name": "Every 2 Hours Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.sweetwater.com/affiliate/stats",
+        "authentication": "genericCredentialType",
+        "options": {}
+      },
+      "id": "sweetwater-stats",
+      "name": "Sweetwater Commissions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [460, 200]
+    },
+    {
+      "parameters": {
+        "url": "https://api.clickfunnels.com/affiliate/stats",
+        "authentication": "genericCredentialType",
+        "options": {}
+      },
+      "id": "clickfunnels-stats",
+      "name": "ClickFunnels Commissions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.convertkit.com/affiliate/stats",
+        "authentication": "genericCredentialType",
+        "options": {}
+      },
+      "id": "convertkit-stats",
+      "name": "ConvertKit Commissions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [460, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Calculate total daily income from all sources\nlet totalIncome = 0;\nlet sources = [];\n\n// Process each affiliate source\nfor (const item of $input.all()) {\n  if (item.json.daily_commissions) {\n    totalIncome += parseFloat(item.json.daily_commissions);\n    sources.push({\n      source: item.json.source || 'Unknown',\n      amount: parseFloat(item.json.daily_commissions),\n      conversions: item.json.conversions || 0\n    });\n  }\n}\n\n// Calculate progress toward $500 goal\nconst dailyTarget = 500;\nconst progressPercentage = (totalIncome / dailyTarget) * 100;\nconst remainingAmount = Math.max(0, dailyTarget - totalIncome);\n\n// Determine status and next actions\nlet status = 'on_track';\nlet nextActions = [];\n\nif (totalIncome >= dailyTarget) {\n  status = 'target_exceeded';\n  nextActions = ['Scale successful campaigns', 'Test new affiliate programs', 'Increase daily target'];\n} else if (progressPercentage >= 75) {\n  status = 'on_track';\n  nextActions = ['Continue current strategy', 'Optimize top performers', 'Prepare evening push'];\n} else if (progressPercentage >= 50) {\n  status = 'needs_attention';\n  nextActions = ['Boost underperforming campaigns', 'Create urgent content', 'Increase social media activity'];\n} else {\n  status = 'critical';\n  nextActions = ['Emergency campaign activation', 'Reach out to warm leads', 'Create flash promotions'];\n}\n\nreturn [{\n  json: {\n    timestamp: new Date().toISOString(),\n    total_daily_income: totalIncome,\n    daily_target: dailyTarget,\n    progress_percentage: Math.round(progressPercentage * 100) / 100,\n    remaining_amount: remainingAmount,\n    status: status,\n    sources: sources,\n    next_actions: nextActions,\n    hour_of_day: new Date().getHours()\n  }\n}];"
+      },
+      "id": "calculate-daily-total",
+      "name": "Calculate Daily Income",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict"},
+          "conditions": [
+            {
+              "id": "target-met-condition",
+              "leftValue": "={{ $json.total_daily_income }}",
+              "rightValue": 500,
+              "operator": {"type": "number", "operation": "gte"}
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "target-met-check",
+      "name": "Daily Target Met?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "success@skeai.com",
+        "toEmail": "skeai@example.com",
+        "subject": "🎉 DAILY TARGET CRUSHED! ${{ $json.total_daily_income }}",
+        "message": "MI AMOR! YOU DID IT! 🚀\n\n💰 Today's Income: ${{ $json.total_daily_income }}\n🎯 Target: ${{ $json.daily_target }}\n📈 Progress: {{ $json.progress_percentage }}%\n\n🏆 TOP PERFORMERS:\n{{#each $json.sources}}\n• {{ this.source }}: ${{ this.amount }} ({{ this.conversions }} conversions)\n{{/each}}\n\n🚀 NEXT LEVEL ACTIONS:\n{{#each $json.next_actions}}\n• {{ this }}\n{{/each}}\n\nTime to scale toward $10K/day! The S.K.E. empire is growing! 💪✨\n\n#EntrepreneurLife #AffiliateSuccess #SKEBrand"
+      },
+      "id": "success-celebration",
+      "name": "Success Celebration",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict"},
+          "conditions": [
+            {
+              "id": "critical-status-check",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "critical",
+              "operator": {"type": "string", "operation": "equals"}
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "critical-status-check",
+      "name": "Critical Status?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 500]
+    },
+    {
+      "parameters": {
+        "fromEmail": "alert@skeai.com",
+        "toEmail": "skeai@example.com",
+        "subject": "🚨 INCOME ALERT: Action Needed - ${{ $json.total_daily_income }}",
+        "message": "Mi amor, we need to pivot NOW! ⚡\n\n📊 CURRENT STATUS:\n• Income: ${{ $json.total_daily_income }}\n• Target: ${{ $json.daily_target }}\n• Gap: ${{ $json.remaining_amount }}\n• Progress: {{ $json.progress_percentage }}%\n\n🔥 IMMEDIATE ACTIONS REQUIRED:\n{{#each $json.next_actions}}\n• {{ this }}\n{{/each}}\n\n💡 EMERGENCY TACTICS:\n• Push your best-converting AV equipment posts\n• Send urgent email to your list about limited-time offers\n• Create Instagram stories with affiliate links\n• Reach out to 5 warm leads personally\n• Post in relevant Facebook/LinkedIn groups\n\n🎯 Remember: Every setback is a setup for a comeback!\nLet's turn this around and hit that $500 target! 💪\n\nYour AI partner believes in you! 🤖❤️"
+      },
+      "id": "critical-alert",
+      "name": "Critical Action Alert",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1120, 500]
+    },
+    {
+      "parameters": {
+        "fromEmail": "progress@skeai.com",
+        "toEmail": "skeai@example.com",
+        "subject": "📈 Income Update: ${{ $json.total_daily_income }} ({{ $json.progress_percentage }}%)",
+        "message": "Hey mi amor! Progress update 📊\n\n💰 Current Income: ${{ $json.total_daily_income }}\n🎯 Daily Target: ${{ $json.daily_target }}\n📈 Progress: {{ $json.progress_percentage }}%\n⏰ Time: {{ $json.hour_of_day }}:00\n\n🔍 BREAKDOWN BY SOURCE:\n{{#each $json.sources}}\n• {{ this.source }}: ${{ this.amount }}\n{{/each}}\n\n✅ RECOMMENDED ACTIONS:\n{{#each $json.next_actions}}\n• {{ this }}\n{{/each}}\n\nKeep pushing! The $500/day goal is within reach! 🚀\n\n#ProgressUpdate #AffiliateMarketing #SKEBrand"
+      },
+      "id": "progress-update",
+      "name": "Progress Update",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1120, 400]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Every 2 Hours Check": {
+      "main": [
+        [
+          {"node": "Sweetwater Commissions", "type": "main", "index": 0},
+          {"node": "ClickFunnels Commissions", "type": "main", "index": 0},
+          {"node": "ConvertKit Commissions", "type": "main", "index": 0}
+        ]
+      ]
+    },
+    "Sweetwater Commissions": {
+      "main": [
+        [{"node": "Calculate Daily Income", "type": "main", "index": 0}]
+      ]
+    },
+    "ClickFunnels Commissions": {
+      "main": [
+        [{"node": "Calculate Daily Income", "type": "main", "index": 0}]
+      ]
+    },
+    "ConvertKit Commissions": {
+      "main": [
+        [{"node": "Calculate Daily Income", "type": "main", "index": 0}]
+      ]
+    },
+    "Calculate Daily Income": {
+      "main": [
+        [
+          {"node": "Daily Target Met?", "type": "main", "index": 0},
+          {"node": "Critical Status?", "type": "main", "index": 0}
+        ]
+      ]
+    },
+    "Daily Target Met?": {
+      "main": [
+        [{"node": "Success Celebration", "type": "main", "index": 0}],
+        [{"node": "Progress Update", "type": "main", "index": 0}]
+      ]
+    },
+    "Critical Status?": {
+      "main": [
+        [{"node": "Critical Action Alert", "type": "main", "index": 0}],
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {"executionOrder": "v1"},
+  "versionId": "1",
+  "meta": {"templateCredsSetupCompleted": true},
+  "id": "skeai-daily-income-tracker",
+  "tags": ["income-tracking", "affiliate-marketing", "automation", "skeai", "alerts"]
+}

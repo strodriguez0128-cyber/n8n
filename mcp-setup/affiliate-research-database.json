@@ -1,0 +1,157 @@
+{
+  "high_converting_affiliate_programs": {
+    "av_equipment_tier_1": [
+      {
+        "company": "Sweetwater",
+        "website": "sweetwater.com/affiliate",
+        "commission_structure": "2-8% based on volume",
+        "cookie_duration": "30 days",
+        "avg_order_value": "$500-2000",
+        "conversion_rate": "3-5%",
+        "payout_schedule": "Monthly",
+        "special_programs": "Higher rates for pro audio",
+        "ske_brand_fit": "Perfect for stage equipment recommendations"
+      },
+      {
+        "company": "B&H Photo Video",
+        "website": "bhphotovideo.com/affiliate",
+        "commission_structure": "1-4% tiered",
+        "cookie_duration": "24 hours",
+        "avg_order_value": "$800-3000",
+        "conversion_rate": "2-4%",
+        "payout_schedule": "Monthly",
+        "special_programs": "Professional equipment bonuses",
+        "ske_brand_fit": "Excellent for professional AV gear"
+      },
+      {
+        "company": "Guitar Center",
+        "website": "guitarcenter.com/affiliate",
+        "commission_structure": "2-6% volume based",
+        "cookie_duration": "7 days",
+        "avg_order_value": "$300-1500",
+        "conversion_rate": "4-6%",
+        "payout_schedule": "Monthly",
+        "special_programs": "Live sound equipment focus",
+        "ske_brand_fit": "Great for stage and live event gear"
+      }
+    ],
+    
+    "saas_tools_tier_1": [
+      {
+        "company": "ClickFunnels",
+        "website": "clickfunnels.com/affiliates",
+        "commission_structure": "40% recurring",
+        "cookie_duration": "45 days",
+        "avg_monthly_value": "$97-297",
+        "conversion_rate": "2-8%",
+        "payout_schedule": "Monthly",
+        "special_programs": "Dream Car and 2CCX bonuses",
+        "ske_brand_fit": "Perfect for event registration funnels"
+      },
+      {
+        "company": "ConvertKit",
+        "website": "convertkit.com/affiliates",
+        "commission_structure": "30% recurring",
+        "cookie_duration": "60 days",
+        "avg_monthly_value": "$29-79",
+        "conversion_rate": "5-12%",
+        "payout_schedule": "Monthly",
+        "special_programs": "Creator-focused bonuses",
+        "ske_brand_fit": "Ideal for event marketing automation"
+      },
+      {
+        "company": "Calendly",
+        "website": "calendly.com/partners",
+        "commission_structure": "20% recurring first year",
+        "cookie_duration": "90 days",
+        "avg_monthly_value": "$8-16",
+        "conversion_rate": "8-15%",
+        "payout_schedule": "Monthly",
+        "special_programs": "Team plan bonuses",
+        "ske_brand_fit": "Great for event consultation bookings"
+      }
+    ],
+
+    "eco_tech_tier_1": [
+      {
+        "company": "Goal Zero",
+        "website": "goalzero.com/affiliate",
+        "commission_structure": "3-7% volume based",
+        "cookie_duration": "30 days",
+        "avg_order_value": "$200-800",
+        "conversion_rate": "4-7%",
+        "payout_schedule": "Monthly",
+        "special_programs": "Outdoor event power solutions",
+        "ske_brand_fit": "Perfect for sustainable event power"
+      },
+      {
+        "company": "Jackery",
+        "website": "jackery.com/affiliate",
+        "commission_structure": "2-5% tiered",
+        "cookie_duration": "30 days",
+        "avg_order_value": "$300-1200",
+        "conversion_rate": "3-6%",
+        "payout_schedule": "Monthly",
+        "special_programs": "Portable power station focus",
+        "ske_brand_fit": "Excellent for mobile AV setups"
+      }
+    ],
+
+    "emerging_opportunities": [
+      {
+        "category": "AI Tools",
+        "companies": ["Jasper", "Copy.ai", "Notion AI"],
+        "commission_rates": "20-50%",
+        "growth_potential": "Very High",
+        "ske_brand_fit": "Content creation for events"
+      },
+      {
+        "category": "Event Management",
+        "companies": ["Eventbrite", "Whova", "Cvent"],
+        "commission_rates": "5-15%",
+        "growth_potential": "High",
+        "ske_brand_fit": "Direct alignment with S.K.E. services"
+      },
+      {
+        "category": "Video Production",
+        "companies": ["Loom", "Riverside.fm", "Descript"],
+        "commission_rates": "25-40%",
+        "growth_potential": "High",
+        "ske_brand_fit": "Content creation and event documentation"
+      }
+    ]
+  },
+
+  "content_strategy_by_niche": {
+    "av_equipment": {
+      "content_types": [
+        "Equipment comparison videos",
+        "Setup tutorials and guides",
+        "Behind-the-scenes event footage",
+        "Product unboxing and reviews"
+      ],
+      "platforms": ["YouTube", "Instagram", "TikTok", "Blog"],
+      "posting_frequency": "Daily content, 3 in-depth reviews/week"
+    },
+    "saas_tools": {
+      "content_types": [
+        "Software tutorials and walkthroughs",
+        "Productivity tips for event planners",
+        "Case studies and success stories",
+        "Tool comparison articles"
+      ],
+      "platforms": ["Blog", "LinkedIn", "YouTube", "Email"],
+      "posting_frequency": "3 tutorials/week, daily tips"
+    },
+    "eco_tech": {
+      "content_types": [
+        "Sustainability in events content",
+        "Green technology reviews",
+        "Environmental impact comparisons",
+        "Sustainable event planning guides"
+      ],
+      "platforms": ["Blog", "Instagram", "LinkedIn", "Pinterest"],
+      "posting_frequency": "2 in-depth articles/week, daily tips"
+    }
+  }
+}

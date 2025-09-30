@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:/Users/SKEAI/allowed"
+      ],
+      "env": {
+        "NODE_ENV": "production",
+        "MCP_LOG_LEVEL": "info"
+      }
+    },
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y", 
+        "@modelcontextprotocol/server-git",
+        "--repository",
+        "C:/Users/SKEAI/allowed"
+      ]
+    }
+  }
+}

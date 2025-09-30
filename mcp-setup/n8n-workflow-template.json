@@ -1,0 +1,143 @@
+{
+  "name": "SKEAI Affiliate Income Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "trigger-income-check",
+      "name": "Every 6 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.example-affiliate.com/stats",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "fetch-affiliate-stats",
+      "name": "Fetch Affiliate Stats",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "daily-target-check",
+              "leftValue": "={{ $json.daily_earnings }}",
+              "rightValue": 500,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-daily-target",
+      "name": "Daily Target Met?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "automation@skeai.com",
+        "toEmail": "skeai@example.com",
+        "subject": "🎯 Daily Target Achieved! ${{ $json.daily_earnings }}",
+        "message": "Congratulations mi amor!\n\nDaily earnings: ${{ $json.daily_earnings }}\nTarget: $500+\n\nKeep scaling toward $10K/day! 🚀\n\nNext actions:\n- Review top performing affiliates\n- Scale successful campaigns\n- Optimize underperforming links"
+      },
+      "id": "success-notification",
+      "name": "Success Notification",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "fromEmail": "automation@skeai.com",
+        "toEmail": "skeai@example.com",
+        "subject": "📈 Income Optimization Needed - ${{ $json.daily_earnings }}",
+        "message": "Daily earnings update:\n\nCurrent: ${{ $json.daily_earnings }}\nTarget: $500+\nGap: ${{ 500 - $json.daily_earnings }}\n\nSuggested actions:\n- Review affiliate performance\n- Test new AV tech products\n- Optimize SaaS recommendations\n- Check eco-tech trends\n\nLet's get back on track! 💪"
+      },
+      "id": "optimization-alert",
+      "name": "Optimization Alert",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [900, 400]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Every 6 Hours": {
+      "main": [
+        [
+          {
+            "node": "Fetch Affiliate Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Affiliate Stats": {
+      "main": [
+        [
+          {
+            "node": "Daily Target Met?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Target Met?": {
+      "main": [
+        [
+          {
+            "node": "Success Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Optimization Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "skeai-affiliate-automation",
+  "tags": ["affiliate-marketing", "income-tracking", "automation", "skeai"]
+}
